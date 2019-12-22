@@ -1,0 +1,83 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口
+  port: 8080
+  servlet:
+    # 应用的访问路径
+    context-path: /wiki-builder
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+ 
+# 日志配置
+logging:
+  level:
+    com.youxueol: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  profiles: 
+    active: ryan-home
+    include: mdsrc
+    # 禁用缓存
+    cache: false
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource: 
+    type: com.zaxxer.hikari.HikariDataSource
+    url: "jdbc:mysql://127.0.0.1:3306/wiki-builder?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8"
+    username: 
+    password: 
+    driverClassName: com.mysql.jdbc.Driver
+    hikari: 
+      minimum-idle: 5
+      maximum-pool-size: 100
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: "SELECT 1"
+  
+
+  # 文件上传
+  servlet:
+     multipart:
+       # 单个文件大小
+       max-file-size:  10MB
+       # 设置总上传的文件大小
+       max-request-size:  20MB
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+
+
+# MyBatis
+mybatis:
+    # 搜索指定包别名
+  typeAliasesPackage: com.yxonline
+    # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+    # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+
+# PageHelper分页插件
+#pagehelper: 
+#  helperDialect: mysql
+#  reasonable: true
+#  supportMethodsArguments: true
+#  params: count=countSql 
